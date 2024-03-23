@@ -1,0 +1,629 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#307FFF"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2024-03-23T00:43:31.4292436"><title>Configuraci&oacute;n y despliegue | DevOps Docs</title><script type="application/json" id="virtual-toc-data">[{"id":"requisitos-para-el-despliegue","level":0,"title":"Requisitos para el despliegue.","anchor":"#requisitos-para-el-despliegue"},{"id":"pasos-para-la-configuraci-n","level":0,"title":"Pasos para la configuración.","anchor":"#pasos-para-la-configuraci-n"},{"id":"gu-a-de-despliegue-y-dependencias","level":0,"title":"Guía de despliegue y dependencias.","anchor":"#gu-a-de-despliegue-y-dependencias"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="frontend/app.css" rel="stylesheet"><link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png"><link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png"><link rel="icon" type="image/x-icon" sizes="96x96" href="images/favicon.ico"><link rel="icon" type="image/png" sizes="300x300" href="images/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="500x500" href="images/android-chrome-192x192.png"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Configuraci&oacute;n y despliegue | DevOps Docs"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="DevOps Docs Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation//0.0.1/config-y-despliegue.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Configuraci&oacute;n y despliegue | DevOps Docs"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation//0.0.1/config-y-despliegue.html#webpage",
+    "url": "writerside-documentation//0.0.1/config-y-despliegue.html",
+    "name": "Configuraci&oacute;n y despliegue | DevOps Docs",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "DevOps Docs Help"
+}</script><!-- End Schema.org --></head><body data-id="config-y-despliegue" data-main-title="Configuración y despliegue" data-article-props="{&quot;seeAlso&quot;:[{&quot;title&quot;:&quot;DevOps documentation&quot;,&quot;links&quot;:[{&quot;url&quot;:&quot;https://cobiscorp.atlassian.net/wiki/spaces/GDD/overview?homepageId\u003d2047771060&quot;,&quot;text&quot;:&quot;Gobierno de DevSecOps - Confluence&quot;}]}],&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs=""><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>DevOps Docs 0.0.1 Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="config-y-despliegue" id="config-y-despliegue.md">Configuración y despliegue</h1><p id="buvvv0_1499">Para configurar correctamente y que el despliegue sea exitoso se recomienda leer atentamente este documento. En este te explicaremos los diferentes tipos de despliegues, para ramas de larga duraci&oacute;n (develop y master) y ramas de desarrollo.</p><aside class="prompt" data-type="note" data-title="" id="buvvv0_1500"><p id="buvvv0_1501"><span class="control" id="buvvv0_1502">Ramas de desarrollo</span></p><p id="buvvv0_1503">las ramas de desarrollo deben empezar con el prefijo <span class="emphasis" id="buvvv0_1504">dev-</span> y debe ser en min&uacute;sculas.</p></aside><figure id="buvvv0_1505"><a href="images/PipelineInit.png" class="lightbox"><img alt="Create new topic options" src="images/PipelineInit.png" class="article__bordered-element" title="Create new topic options" width="321" height="207"></a></figure><section class="chapter"><h2 id="requisitos-para-el-despliegue" data-toc="requisitos-para-el-despliegue">Requisitos para el despliegue.</h2><p id="buvvv0_1506">DevOps IaC requiere que la cuenta en la que se va a desplegar cuente con los siguientes recursos.</p><ol class="list _decimal" id="buvvv0_1507" type="1"><li class="list__item" id="buvvv0_1508"><p>Role <code class="code" id="buvvv0_1509">ec2_dev_role</code> con la <span class="emphasis" id="buvvv0_1510">Trust relationships</span> a la cuenta develop y master de DevOps.</p></li><li class="list__item" id="buvvv0_1511"><p><a href="guia.html#crear-ami-s" id="buvvv0_1512" data-tooltip="Inicia la terminal de tu pc en mi caso fue PowerShell de windows:">las AMI's de Main y de Quarkus</a> en ambas regiones.</p></li><li class="list__item" id="buvvv0_1513"><p>Llave azure-agents-key.pem</p></li></ol></section><section class="chapter"><h2 id="pasos-para-la-configuraci-n" data-toc="pasos-para-la-configuraci-n">Pasos para la configuraci&oacute;n.</h2><svg aria-roledescription="flowchart-v2" role="graphics-document document" viewBox="-8 -8 406.578125 134"  xmlns="http://www.w3.org/2000/svg" width="406.578125" id="mermaid"><g><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="10" viewBox="0 0 12 20" class="marker flowchart" id="flowchart-pointEnd"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 0 L 10 5 L 0 10 z"></path></marker><marker orient="auto" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="0" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-pointStart"><path style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 0 5 L 10 10 L 10 0 z"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="11" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-circleEnd"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5" refX="-1" viewBox="0 0 10 10" class="marker flowchart" id="flowchart-circleStart"><circle style="stroke-width: 1; stroke-dasharray: 1, 0;" class="arrowMarkerPath" r="5" cy="5" cx="5"></circle></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="12" viewBox="0 0 11 11" class="marker cross flowchart" id="flowchart-crossEnd"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><marker orient="auto" markerHeight="11" markerWidth="11" markerUnits="userSpaceOnUse" refY="5.2" refX="-1" viewBox="0 0 11 11" class="marker cross flowchart" id="flowchart-crossStart"><path style="stroke-width: 2; stroke-dasharray: 1, 0;" class="arrowMarkerPath" d="M 1,1 l 9,9 M 10,1 l -9,9"></path></marker><g class="root"><g class="clusters"></g><g class="edgePaths"><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-B" id="L-A-B-0" d="M142.22842261904762,42L154.70207093253967,37.833333333333336C167.17571924603175,33.666666666666664,192.12301587301587,25.333333333333332,218.0589037698413,21.166666666666668C243.99479166666666,17,270.9192708333333,17,284.3815104166667,17L297.84375,17"></path><path marker-end="url(#flowchart-pointEnd)" style="fill:none;" class="edge-thickness-normal edge-pattern-solid flowchart-link LS-A LE-C" id="L-A-C-0" d="M142.22842261904762,76L154.70207093253967,80.16666666666667C167.17571924603175,84.33333333333333,192.12301587301587,92.66666666666667,210.3297371031746,96.83333333333333C228.53645833333334,101,240.00260416666666,101,245.73567708333334,101L251.46875,101"></path></g><g class="edgeLabels"><g transform="translate(217.0703125, 17)" class="edgeLabel"><g transform="translate(-6.1328125, -9.5)" class="label"><foreignObject height="19" width="12.265625"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">Si</span></div></foreignObject></g></g><g transform="translate(217.0703125, 101)" class="edgeLabel"><g transform="translate(-9.3984375, -9.5)" class="label"><foreignObject height="19" width="18.796875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="edgeLabel">No</span></div></foreignObject></g></g></g><g class="nodes"><g transform="translate(91.3359375, 59)" id="flowchart-A-505" class="node default default flowchart-label"><rect height="34" width="182.671875" y="-17" x="-91.3359375" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(-83.8359375, -9.5)" style="" class="label"><rect></rect><foreignObject height="19" width="167.671875"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">Rama de desarrollador?</span></div></foreignObject></g></g><g transform="translate(321.0234375, 17)" id="flowchart-B-507" class="node default default flowchart-label"><rect height="34" width="46.359375" y="-17" x="-23.1796875" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(-15.6796875, -9.5)" style="" class="label"><rect></rect><foreignObject height="19" width="31.359375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">dev-</span></div></foreignObject></g></g><g transform="translate(321.0234375, 101)" id="flowchart-C-509" class="node default default flowchart-label"><rect height="34" width="139.109375" y="-17" x="-69.5546875" ry="0" rx="0" style="" class="basic label-container"></rect><g transform="translate(-62.0546875, -9.5)" style="" class="label"><rect></rect><foreignObject height="19" width="124.109375"><div style="display: inline-block; white-space: nowrap;" xmlns="http://www.w3.org/1999/xhtml"><span class="nodeLabel">develop o master</span></div></foreignObject></g></g></g></g></g></svg><section class="chapter"><div class="collapse"><div class="collapse__title"><h3 id="config" data-toc="config">Config</h3></div><div class="collapse__content"><p id="buvvv0_1515">Necesitas ajustarlo en <span class="control" id="buvvv0_1516">config.json</span> ubicado en: <code class="code" id="buvvv0_1517">devops/deployConfig/devops/&lt;env&gt;</code>.</p><ul class="list _bullet" id="buvvv0_1518"><li class="list__item" id="buvvv0_1519"><p><code class="code" id="buvvv0_1520">&lt;env&gt;</code> Ambiente resuelto en el pipeline de acuerdo con la rama. Para mas informaci&oacute;n ver la <a href="http://localhost:63342/Docs/preview/introduccion.html#instalaci-n" id="buvvv0_1521" data-external="true" rel="noopener noreferrer">introduccion</a></p></li></ul><div class="tabs" id="buvvv0_1522" data-anchors="[buvvv0_1523,buvvv0_1525]"><div class="tabs__content" data-gtm="tab" id="buvvv0_1523" data-title="Ramas de larga duraci&oacute;n"><div class="code-block" data-lang="json" data-title="JSON">
+{
+  &quot;parameters&quot;: {
+    &quot;module&quot;: &quot;devops&quot;
+  },
+  &quot;pipeline&quot;: {
+    &quot;project&quot;: {
+      &quot;project-key&quot;: &quot;cobis-cloud-devops-iac&quot;,
+      &quot;teams-webhook-url&quot;: &quot;https://outlook.office.com/webhook/4f4e50c5-b2ab-4396-8ab8-e4af1d9434aa@a5e6fcaa-5535-41e3-8d08-2b6676750a3f/JenkinsCI/c8edcdeeccf347b6b4aad622de2a1a53/b8972d64-dcef-486c-8c42-6927a6b04e0b&quot;,
+      &quot;custom-deploy-enable&quot;: &quot;true&quot;,
+      &quot;module&quot;: &quot;${module}&quot;
+    },
+    &quot;deploy&quot;: {
+      &quot;stack-name&quot;: &quot;${ENVIRONMENT_ID}-cobis-cloud-devops-iac&quot;,
+      &quot;s3-bucket&quot;: &quot;${CICD_BUCKET}&quot;,
+      &quot;prefix&quot;: &quot;${ENVIRONMENT_ID}&quot;,
+      &quot;aws-default-region&quot;: &quot;${REGION}&quot;,
+      &quot;capabilities&quot;: &quot;CAPABILITY_IAM CAPABILITY_AUTO_EXPAND CAPABILITY_NAMED_IAM&quot;,
+      &quot;non-confirm-change-set&quot;: &quot;true&quot;,
+      &quot;parameters&quot;: [
+        {
+          &quot;parameterKey&quot;: &quot;CreateNetworkIaC&quot;,
+          &quot;parameterValue&quot;: &quot;true&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Module&quot;,
+          &quot;parameterValue&quot;: &quot;${module}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;EnvironmentType&quot;,
+          &quot;parameterValue&quot;: &quot;DEVELOPMENT&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;TenantId&quot;,
+          &quot;parameterValue&quot;: &quot;t1&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Project&quot;,
+          &quot;parameterValue&quot;: &quot;CobisServerless&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Package&quot;,
+          &quot;parameterValue&quot;: &quot;CobisDevSecOps&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Env&quot;,
+          &quot;parameterValue&quot;: &quot;${BASE_ENVIRONMENT_ID}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;EnvironmentId&quot;,
+          &quot;parameterValue&quot;: &quot;${ENVIRONMENT_ID}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Region&quot;,
+          &quot;parameterValue&quot;: &quot;${REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DefaultRegion&quot;,
+          &quot;parameterValue&quot;: &quot;${AWS_DEFAULT_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DRRegion&quot;,
+          &quot;parameterValue&quot;: &quot;${AWS_DR_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;AvailabilityZones&quot;,
+          &quot;parameterValue&quot;: &quot;us-east-1a,us-east-1b,us-east-1c&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DeployBucket&quot;,
+          &quot;parameterValue&quot;: &quot;${CICD_BUCKET}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGEc2InstanceType&quot;,
+          &quot;parameterValue&quot;: &quot;t3.xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGEc2InstanceType&quot;,
+          &quot;parameterValue&quot;: &quot;a1.4xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsAgentAmiId&quot;,
+          &quot;parameterValue&quot;: &quot;${AMI_MAIN_DEFAULT_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentAmiId&quot;,
+          &quot;parameterValue&quot;: &quot;${AMI_QUARKUS_DEFAULT_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;OrganizationName&quot;,
+          &quot;parameterValue&quot;: &quot;cobiscorp&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsAgentDescriptor&quot;,
+          &quot;parameterValue&quot;: &quot;Main&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentDescriptor&quot;,
+          &quot;parameterValue&quot;: &quot;Quarkus&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGAzureDevopsPat&quot;,
+          &quot;parameterValue&quot;: &quot;kr5clf4lnvnrmoas5uo476l7afek364k64v2qpwd7yrkvsfkt2ba&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGAzureDevopsPat&quot;,
+          &quot;parameterValue&quot;: &quot;kr5clf4lnvnrmoas5uo476l7afek364k64v2qpwd7yrkvsfkt2ba&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsAgentPool&quot;,
+          &quot;parameterValue&quot;: &quot;aws-pool-linux&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentPool&quot;,
+          &quot;parameterValue&quot;: &quot;aws-quarkus-pool-linux&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;AzureAgentsKey&quot;,
+          &quot;parameterValue&quot;: &quot;azure-agents-key&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGMinCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGMaxCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGDesiredCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGMinCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGMaxCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGDesiredCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;ScaleOutTriggerEnabled&quot;,
+          &quot;parameterValue&quot;: &quot;ENABLED&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMaxVCpuCount&quot;,
+          &quot;parameterValue&quot;: 16
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMinVCpuCount&quot;,
+          &quot;parameterValue&quot;: 4
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMaxMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 32768
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMinMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 16384
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainAllowedInstanceTypes&quot;,
+          &quot;parameterValue&quot;: &quot;t3.xlarge,m6in.xlarge,m6a.xlarge,m4.xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMaxVCpuCount&quot;,
+          &quot;parameterValue&quot;: 16
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMinVCpuCount&quot;,
+          &quot;parameterValue&quot;: 2
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMaxMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 65536
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMinMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 32768
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusAllowedInstanceTypes&quot;,
+          &quot;parameterValue&quot;: &quot;m6g.2xlarge,m7g.2xlarge,r6g.2xlarge,r7g.2xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;CreateGoldenAMI&quot;,
+          &quot;parameterValue&quot;: &quot;false&quot;
+        }
+      ]
+    },
+    &quot;disaster-recovery&quot;: {
+      &quot;activated-on-primary&quot;: {
+        &quot;deploy&quot;: {
+          &quot;parameters&quot;: [
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_MAIN_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_QUARKUS_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;AvailabilityZones&quot;,
+              &quot;parameterValue&quot;: &quot;us-west-2a,us-west-2b,us-west-2c&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;ScaleOutTriggerEnabled&quot;,
+              &quot;parameterValue&quot;: &quot;ENABLED&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;CreateGoldenAMI&quot;,
+              &quot;parameterValue&quot;: &quot;true&quot;
+            }
+          ]
+        }
+      },
+      &quot;deactivated-on-secondary&quot;: {
+        &quot;deploy&quot;: {
+          &quot;parameters&quot;: [
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_MAIN_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_QUARKUS_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;AvailabilityZones&quot;,
+              &quot;parameterValue&quot;: &quot;us-west-2a,us-west-2b,us-west-2c&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;ScaleOutTriggerEnabled&quot;,
+              &quot;parameterValue&quot;: &quot;DISABLED&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;CreateGoldenAMI&quot;,
+              &quot;parameterValue&quot;: &quot;false&quot;
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+        </div></div><div class="tabs__content" data-gtm="tab" id="buvvv0_1525" data-title="Ramas de desarrollo"><div class="code-block" data-lang="json" data-title="JSON">
+{
+  &quot;parameters&quot;: {
+    &quot;module&quot;: &quot;devops&quot;
+  },
+  &quot;stack-outputs&quot;: [&quot;${BASE_ENVIRONMENT_ID}-cobis-cloud-devops-iac&quot;],
+  &quot;pipeline&quot;: {
+    &quot;project&quot;: {
+      &quot;project-key&quot;: &quot;cobis-cloud-devops-iac&quot;,
+      &quot;teams-webhook-url&quot;: &quot;https://outlook.office.com/webhook/4f4e50c5-b2ab-4396-8ab8-e4af1d9434aa@a5e6fcaa-5535-41e3-8d08-2b6676750a3f/JenkinsCI/c8edcdeeccf347b6b4aad622de2a1a53/b8972d64-dcef-486c-8c42-6927a6b04e0b&quot;,
+      &quot;custom-deploy-enable&quot;: &quot;true&quot;,
+      &quot;module&quot;: &quot;${module}&quot;
+    },
+    &quot;deploy&quot;: {
+      &quot;stack-name&quot;: &quot;${ENVIRONMENT_ID}-cobis-cloud-devops-iac&quot;,
+      &quot;s3-bucket&quot;: &quot;${CICD_BUCKET}&quot;,
+      &quot;prefix&quot;: &quot;${ENVIRONMENT_ID}&quot;,
+      &quot;aws-default-region&quot;: &quot;${REGION}&quot;,
+      &quot;capabilities&quot;: &quot;CAPABILITY_IAM CAPABILITY_AUTO_EXPAND CAPABILITY_NAMED_IAM&quot;,
+      &quot;non-confirm-change-set&quot;: &quot;true&quot;,
+      &quot;parameters&quot;: [
+        {
+          &quot;parameterKey&quot;: &quot;CreateNetworkIaC&quot;,
+          &quot;parameterValue&quot;: &quot;false&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Module&quot;,
+          &quot;parameterValue&quot;: &quot;${module}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;VPCZoneIdentifier&quot;,
+          &quot;parameterValue&quot;: &quot;${${BASE_ENVIRONMENT_ID}-cobis-cloud-devops-iac:VPCZoneIdentifier}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;SecurityGroupId&quot;,
+          &quot;parameterValue&quot;: &quot;${${BASE_ENVIRONMENT_ID}-cobis-cloud-devops-iac:SecurityGroupId}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;EnvironmentType&quot;,
+          &quot;parameterValue&quot;: &quot;DEVELOPMENT&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;TenantId&quot;,
+          &quot;parameterValue&quot;: &quot;t1&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Project&quot;,
+          &quot;parameterValue&quot;: &quot;CobisServerless&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Package&quot;,
+          &quot;parameterValue&quot;: &quot;CobisDevSecOps&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Env&quot;,
+          &quot;parameterValue&quot;: &quot;${BASE_ENVIRONMENT_ID}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;EnvironmentId&quot;,
+          &quot;parameterValue&quot;: &quot;${ENVIRONMENT_ID}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;Region&quot;,
+          &quot;parameterValue&quot;: &quot;${REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DefaultRegion&quot;,
+          &quot;parameterValue&quot;: &quot;${AWS_DEFAULT_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DRRegion&quot;,
+          &quot;parameterValue&quot;: &quot;${AWS_DR_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;AvailabilityZones&quot;,
+          &quot;parameterValue&quot;: &quot;us-east-1a,us-east-1b,us-east-1c&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DeployBucket&quot;,
+          &quot;parameterValue&quot;: &quot;${CICD_BUCKET}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGEc2InstanceType&quot;,
+          &quot;parameterValue&quot;: &quot;t3.xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGEc2InstanceType&quot;,
+          &quot;parameterValue&quot;: &quot;a1.4xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsAgentAmiId&quot;,
+          &quot;parameterValue&quot;: &quot;${AMI_MAIN_DEFAULT_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentAmiId&quot;,
+          &quot;parameterValue&quot;: &quot;${AMI_QUARKUS_DEFAULT_REGION}&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;OrganizationName&quot;,
+          &quot;parameterValue&quot;: &quot;cobiscorp&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsAgentDescriptor&quot;,
+          &quot;parameterValue&quot;: &quot;Main&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentDescriptor&quot;,
+          &quot;parameterValue&quot;: &quot;Quarkus&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGAzureDevopsPat&quot;,
+          &quot;parameterValue&quot;: &quot;6retkbzvp2mbo4j36ewhz7ybfdjo2bp3discozyqujat2lyyaiuq&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGAzureDevopsPat&quot;,
+          &quot;parameterValue&quot;: &quot;6retkbzvp2mbo4j36ewhz7ybfdjo2bp3discozyqujat2lyyaiuq&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsAgentPool&quot;,
+          &quot;parameterValue&quot;: &quot;pof-pool-a&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentPool&quot;,
+          &quot;parameterValue&quot;: &quot;pof-pool-b&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;AzureAgentsKey&quot;,
+          &quot;parameterValue&quot;: &quot;azure-agents-key&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGMinCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGMaxCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainASGDesiredCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGMinCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGMaxCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusASGDesiredCapacity&quot;,
+          &quot;parameterValue&quot;: &quot;0&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;ScaleOutTriggerEnabled&quot;,
+          &quot;parameterValue&quot;: &quot;ENABLED&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMaxVCpuCount&quot;,
+          &quot;parameterValue&quot;: 16
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMinVCpuCount&quot;,
+          &quot;parameterValue&quot;: 4
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMaxMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 32768
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainMinMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 16384
+        },
+        {
+          &quot;parameterKey&quot;: &quot;MainAllowedInstanceTypes&quot;,
+          &quot;parameterValue&quot;: &quot;t3.xlarge,m6in.xlarge,m6a.xlarge,m4.xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMaxVCpuCount&quot;,
+          &quot;parameterValue&quot;: 16
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMinVCpuCount&quot;,
+          &quot;parameterValue&quot;: 2
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMaxMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 65536
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusMinMemoryMiB&quot;,
+          &quot;parameterValue&quot;: 32768
+        },
+        {
+          &quot;parameterKey&quot;: &quot;QuarkusAllowedInstanceTypes&quot;,
+          &quot;parameterValue&quot;: &quot;m6g.2xlarge,m7g.2xlarge,r6g.2xlarge,r7g.2xlarge&quot;
+        },
+        {
+          &quot;parameterKey&quot;: &quot;CreateGoldenAMI&quot;,
+          &quot;parameterValue&quot;: &quot;false&quot;
+        }
+      ]
+    },
+    &quot;disaster-recovery&quot;: {
+      &quot;activated-on-primary&quot;: {
+        &quot;deploy&quot;: {
+          &quot;parameters&quot;: [
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_MAIN_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_QUARKUS_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;AvailabilityZones&quot;,
+              &quot;parameterValue&quot;: &quot;us-west-2a,us-west-2b,us-west-2c&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;ScaleOutTriggerEnabled&quot;,
+              &quot;parameterValue&quot;: &quot;ENABLED&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;CreateGoldenAMI&quot;,
+              &quot;parameterValue&quot;: &quot;false&quot;
+            }
+          ]
+        }
+      },
+      &quot;deactivated-on-secondary&quot;: {
+        &quot;deploy&quot;: {
+          &quot;parameters&quot;: [
+            {
+              &quot;parameterKey&quot;: &quot;VPCZoneIdentifier&quot;,
+              &quot;parameterValue&quot;: &quot;${${BASE_ENVIRONMENT_ID}-cobis-cloud-devops-iac:VPCZoneIdentifier}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;SecurityGroupId&quot;,
+              &quot;parameterValue&quot;: &quot;${${BASE_ENVIRONMENT_ID}-cobis-cloud-devops-iac:SecurityGroupId}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_MAIN_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;DevOpsQuarkusAgentAmiId&quot;,
+              &quot;parameterValue&quot;: &quot;${AMI_QUARKUS_DR_REGION}&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;AvailabilityZones&quot;,
+              &quot;parameterValue&quot;: &quot;us-west-2a,us-west-2b,us-west-2c&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;MainASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMinCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGMaxCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;QuarkusASGDesiredCapacity&quot;,
+              &quot;parameterValue&quot;: &quot;0&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;ScaleOutTriggerEnabled&quot;,
+              &quot;parameterValue&quot;: &quot;DISABLED&quot;
+            },
+            {
+              &quot;parameterKey&quot;: &quot;CreateGoldenAMI&quot;,
+              &quot;parameterValue&quot;: &quot;false&quot;
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+        </div></div></div></div></div></section></section><section class="chapter"><h2 id="gu-a-de-despliegue-y-dependencias" data-toc="gu-a-de-despliegue-y-dependencias">Gu&iacute;a de despliegue y dependencias.</h2><p id="buvvv0_1527">Es necesario crear previamente las AMI's en la regi&oacute;n de Virginia y posteriormente copiarlas a la regi&oacute;n de Oregon, asegur&aacute;ndose de pasar el ID correspondiente a la biblioteca del pipeline.</p><section class="chapter"><div class="collapse"><div class="collapse__title" data-expanded="true"><h3 id="actualizacion-de-ami-s-id-en-librerias" data-toc="actualizacion-de-ami-s-id-en-librerias">Actualizacion de AMI's ID en librerias⭐</h3></div><div class="collapse__content"><div class="tabs" id="buvvv0_1528" data-anchors="[buvvv0_1529,buvvv0_1531]"><div class="tabs__content" data-gtm="tab" id="buvvv0_1529" data-title="devops-dev"><figure id="buvvv0_1530"><a href="images/libreriadev.png" class="lightbox"><img alt="Libreria dev" src="images/libreriadev.png" class="article__bordered-element" title="Libreria dev" width="321" height="207"></a></figure></div><div class="tabs__content" data-gtm="tab" id="buvvv0_1531" data-title="devops-prd"><figure id="buvvv0_1532"><a href="images/libreriaprd.png" class="lightbox"><img alt="Libreria prd" src="images/libreriaprd.png" class="article__bordered-element" title="Libreria prd" width="321" height="207"></a></figure></div></div></div></div></section></section><div class="last-modified">Last modified: 23 marzo 2024</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="introduccion.html" class="navigation-links__next">Introducci&oacute;n</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="frontend/app.js"></script></body></html>
