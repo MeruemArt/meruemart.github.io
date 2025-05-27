@@ -1,0 +1,39 @@
+<Configuration status="TRACE" monitorInterval="30">
+    <Properties>
+        <Property name="filename">cwc-$${sys:serverName}.log</Property>
+		<Property name="LOG_DIRECTORY">$${sys:CWC_LOG_DIRECTORY}</Property>
+		<Property name="serverName">$${sys:serverName}</Property> 
+    </Properties>
+    <Appenders>
+        <RollingRandomAccessFile name="CRollingRandomAccessFile" fileName="${LOG_DIRECTORY}/${filename}" filePattern="${LOG_DIRECTORY}/$${date:yyyy-MM}/${filename}.%d{yyyy-MM-dd-HH}-%i.log.gz">
+          <DefaultRolloverStrategy max="50"/>
+          <PatternLayout>
+            <Pattern>%d{MMdd HHmmss,SSS} %-5.5p[${serverName}][%-.15t][%c{1}][%M][trc:%X{traceId},%X{httpSessionId},%X{user},%X{sessionIdCobis}]%m%n</Pattern>
+          </PatternLayout>
+          <Policies>
+            <TimeBasedTriggeringPolicy modulate="true" interval="1"/>
+            <SizeBasedTriggeringPolicy size="100 MB"/>
+          </Policies>
+        </RollingRandomAccessFile>        
+    </Appenders>
+    <Loggers>
+        <Root level="ALL" includeLocation="false">
+            <AppenderRef ref="CRollingRandomAccessFile"/>
+        </Root>
+		<Logger name="com.cobiscorp.cobis.cwc.api.rest.impl" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.api.service.impl" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.configuration" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.context" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.context.impl" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.impl" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.license.impl" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.api.rest.impl" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.security.admin" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.security.auth" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.security.filter" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.security.token" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.security.tr" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.cobis.cwc.security.tr" level="DEBUG" additivity="true"/>
+		<Logger name="com.cobiscorp.designer.ui" level="DEBUG" additivity="true"/>
+    </Loggers>
+</Configuration>
